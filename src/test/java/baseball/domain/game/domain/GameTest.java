@@ -31,6 +31,7 @@ class GameTest {
     @Test
     void 투수_볼던졌을때_값이_일치하는지() {
         //given
+        String input = "123";
         Player player = new Player();
         Computer computer = new ComputerService().save();
 
@@ -40,9 +41,9 @@ class GameTest {
                 .player(player)
                 .build();
 
-        game.getPlayer().setInput("123");
+        game.getPlayer().setInput(input);
 
         //then
-        assertThat(player.getInput()).isEqualTo("123");
+        assertThat(game.getPlayer().getInput()).isEqualTo(input);
     }
 }

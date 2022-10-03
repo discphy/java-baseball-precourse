@@ -6,8 +6,8 @@ import baseball.domain.player.domain.Player;
 public class Game {
 
     private boolean clear;
-    private Computer computer;
-    private Player player;
+    private final Computer computer;
+    private final Player player;
 
     public Game(Computer computer, Player player) {
         this.clear = false;
@@ -27,16 +27,8 @@ public class Game {
         return player;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
     public Computer getComputer() {
         return computer;
-    }
-
-    public void setComputer(Computer computer) {
-        this.computer = computer;
     }
 
     public static Builder builder() {
