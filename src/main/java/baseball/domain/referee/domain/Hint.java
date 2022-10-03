@@ -1,4 +1,4 @@
-package baseball.domain.game.domain;
+package baseball.domain.referee.domain;
 
 public enum Hint {
 
