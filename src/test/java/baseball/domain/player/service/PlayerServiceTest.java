@@ -1,32 +1,66 @@
 package baseball.domain.player.service;
 
+import baseball.domain.player.domain.Player;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.in;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class PlayerServiceTest {
-    @Test
-    void 게임_입력값_잘못입력시() {
-        //given
-        String input = "우테코";
 
-        //when
-        boolean result = input.matches("[1-9]{3}");
+    private final PlayerService playerService;
 
-        //then
-        assertThat(result).isFalse();
+    public PlayerServiceTest() {
+        playerService = new PlayerService();
     }
 
     @Test
-    void 게임종료후_재시작_입력값_잘못입력시() {
+    void 게임_입력값_플레이어_객체값_일치() {
         //given
-        String input = "3";
+        String input = "123";
+        Player player = new Player();
 
         //when
-        boolean result = input.matches("[1|2]");
+        playerService.input(player, input, PlayerService.GAME_REGEX);
 
         //then
-        assertThat(result).isFalse();
+        assertThat(player.getInput()).isEqualTo(input);
+    }
+
+    @Test
+    void 재게임선택_입력값_플레이어_객체값_일치() {
+        //given
+        String input = "2";
+        Player player = new Player();
+
+        //when
+        playerService.input(player, "2", PlayerService.CHOICE_REGEX);
+
+        //then
+        assertThat(player.getInput()).isEqualTo(input);
+    }
+
+    @Test
+    void 게임_입력값이_예외처리되는지() {
+        //given
+        String input = "1234";
+        Player player = new Player();
+
+        //then
+        assertThatThrownBy(() -> {
+            playerService.input(player, input, PlayerService.GAME_REGEX);
+        }).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 재게임선택_입력값이_예외처리되는지() {
+        //given
+        String input = "3";
+        Player player = new Player();
+
+        //then
+        assertThatThrownBy(() -> {
+            playerService.input(player, input, PlayerService.CHOICE_REGEX);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -1,54 +1,46 @@
 package baseball.domain.computer.service;
 
-import baseball.domain.game.service.GameService;
-import camp.nextstep.edu.missionutils.Randoms;
+import baseball.domain.computer.domain.Computer;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ComputerServiceTest {
 
+    private final ComputerService computerService;
+
+    public ComputerServiceTest() { computerService = new ComputerService(); }
+
     @Test
-    void 범위_내의_숫자로_구성() {
+    void 정답값_범위_내의_숫자로_구성() {
         //when
-        int pick = Randoms.pickNumberInRange(GameService.MIN_NUMBER, GameService.MAX_NUMBER);
+        Computer computer = computerService.save();
 
         //then
-        assertThat(pick).isBetween(1, 9);
+        computer.getAnswer().forEach(answer -> assertThat(answer).isBetween(1, 9));
     }
 
     @Test
-    void 서로다른수_확인() {
-        //given
-        List<Integer> list = new ArrayList<>();
-
+    void 정답값_서로다른수_확인() {
         //when
-        while (list.size() != 3) {
-            int pick = Randoms.pickNumberInRange(GameService.MIN_NUMBER, GameService.MAX_NUMBER);
-
-            if (!list.contains(pick)) list.add(pick);
-        }
+        Computer computer = computerService.save();
+        List<Integer> list = computer.getAnswer();
 
         //then
         assertThat(list.get(0)).isNotEqualTo(list.get(1)).isNotEqualTo(list.get(2));
     }
 
     @Test
-    void 세자리수확인() {
+    void 정답값_세자리수확인() {
         //given
-        List<Integer> list = new ArrayList<>();
+        int size = 3;
 
         //when
-        while (list.size() != 3) {
-            int pick = Randoms.pickNumberInRange(GameService.MIN_NUMBER, GameService.MAX_NUMBER);
-
-            if (!list.contains(pick)) list.add(pick);
-        }
+        Computer computer = computerService.save();
 
         //then
-        assertThat(list.size()).isEqualTo(3);
+        assertThat(computer.getAnswer().size()).isEqualTo(size);
     }
 }
